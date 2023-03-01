@@ -27,8 +27,6 @@ fun PieChartCenterCut(
     chartAnimationDuration: Int = 1000,
     colors: List<Color>,
 ){
-    println(data)
-
     val dataTotal = data.values.sum()
     val arcValues = mutableListOf<Float>()
 
