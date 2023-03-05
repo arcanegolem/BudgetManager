@@ -26,6 +26,7 @@ fun PieChartCenterCut(
     chartBarWidth: Dp = 40.dp,
     chartAnimationDuration: Int = 1000,
     colors: List<Color>,
+    showLegend: Boolean = true
 ){
     val dataTotal = data.values.sum()
     val arcValues = mutableListOf<Float>()
@@ -82,7 +83,9 @@ fun PieChartCenterCut(
             }
         }
 
-        ChartLegend(data = data, colors = colors)
+        if (showLegend) {
+            ChartLegend(data = data, colors = colors)
+        }
     }
 }
 
