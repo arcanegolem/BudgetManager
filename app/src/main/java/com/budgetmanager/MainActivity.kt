@@ -53,7 +53,7 @@ fun BudgetManagerComposable(){
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomNavigationBar(
-                backgroundColor = Color(alpha = 0.6f, red = 1.0f, green = 1.0f, blue = 1.0f),
+                backgroundColor = colorResource(id = R.color.super_light_gray),
                 unselectedContentColor = Color.White,
                 selectedContentColor = colorResource(id = R.color.cash_green),
                 navTabs = listOf(
@@ -94,7 +94,7 @@ fun BottomNavigationBar(
         modifier = modifier
             .padding(bottom = 10.dp)
             .clip(shape = RoundedCornerShape(25.dp))
-            .height(iconHeight * 2.5f),
+            .height(iconHeight * 2f),
         backgroundColor = backgroundColor,
         elevation = 0.dp
     ) {
@@ -128,7 +128,10 @@ fun BottomNavigationBar(
                                 modifier = Modifier
                                     .height(dividerThickness)
                                     .width(with(LocalDensity.current) { iconSize.width.toDp() * 1.2f })
-                                    .background(color = colorResource(id = R.color.cash_green), shape = RoundedCornerShape(dividerThickness/2))
+                                    .background(
+                                        color = colorResource(id = R.color.cash_green),
+                                        shape = RoundedCornerShape(dividerThickness / 2)
+                                    )
                             )
                         }
                     }
