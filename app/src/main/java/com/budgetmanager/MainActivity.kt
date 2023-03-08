@@ -8,20 +8,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.budgetmanager.charts.PieChart
 import com.budgetmanager.navigation.NavItem
 import com.budgetmanager.navigation.Navigation
 import com.budgetmanager.screensbase.Screen
@@ -34,34 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BudgetManagerTheme {
-                Row(
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .background(
-                            color = Color.DarkGray,
-                            shape = RoundedCornerShape(
-                                topStart = 20.dp,
-                                topEnd = 90.dp,
-                                bottomStart = 20.dp,
-                                bottomEnd = 90.dp)
-                        )
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    PieChart(
-                        outerRadius = 120.dp,
-                        chartBarWidth = 20.dp,
-                        data = mapOf(
-                            Pair("Sample-data-1", 21f),
-                            Pair("Sample-data-2", 30f),
-                            Pair("Sample-data-3", 10f),
-                            Pair("Sample-data-4", 48f),
-                            Pair("Sample-data-5", 100f),
-                            Pair("Sample-data-6", 58f)
-                        ),
-                        colors = listOf(Color.Red, Color.Blue, Color.Green, Color.Magenta, Color.Yellow, Color.Cyan)
-                    )
-                }
+                BudgetManagerComposable()
             }
         }
     }
@@ -78,15 +53,14 @@ fun BudgetManagerComposable(){
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomNavigationBar(
-                modifier = Modifier,
-                backgroundColor = Color.Blue,
+                backgroundColor = Color(alpha = 0.4f, red = 1.0f, green = 1.0f, blue = 1.0f),
                 unselectedContentColor = Color.White,
-                selectedContentColor = Color.White,
+                selectedContentColor = colorResource(id = R.color.cash_green),
                 navTabs = listOf(
                     NavItem(
                         title = Screen.Home.title,
                         route = Screen.Home.route,
-                        icon =  Icons.Rounded.Home,
+                        icon =  ImageVector.vectorResource(id = R.drawable.home),
                     ),
                 ),
                 navController = navController,
@@ -95,8 +69,8 @@ fun BudgetManagerComposable(){
                 }
             )
         }
-    ) { innerPadding->
-        Box(modifier = Modifier.padding(innerPadding)) {
+    ) {
+        Column() {
             Navigation(navController = navController, scaffoldState = scaffoldState)
         }
     }
@@ -105,7 +79,7 @@ fun BudgetManagerComposable(){
 
 @Composable
 fun BottomNavigationBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     backgroundColor: Color,
     unselectedContentColor: Color,
     selectedContentColor: Color,
@@ -114,11 +88,15 @@ fun BottomNavigationBar(
     onItemClick: (NavItem) -> Unit
 ){
     val backStackEntry = navController.currentBackStackEntryAsState()
+    val iconHeight = 34.dp
 
     BottomNavigation(
-        modifier = modifier.clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
+        modifier = modifier
+            .padding(bottom = 10.dp)
+            .clip(shape = RoundedCornerShape(25.dp))
+            .height(iconHeight * 2.5f),
         backgroundColor = backgroundColor,
-        elevation = 5.dp
+        elevation = 0.dp
     ) {
         navTabs.forEach { item ->
             val selected = item.route == backStackEntry.value?.destination?.route
@@ -130,18 +108,27 @@ fun BottomNavigationBar(
                 unselectedContentColor = unselectedContentColor,
 
                 icon = {
+                    var iconSize by remember { mutableStateOf(Size.Zero) }
+                    val dividerThickness = 3.dp
+
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
                         Icon(
+                            modifier = Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    iconSize = coordinates.size.toSize()
+                                }
+                                .padding(bottom = if (selected) dividerThickness * 3 else 0.dp),
                             imageVector = item.icon,
                             contentDescription = item.title
                         )
                         if (selected) {
-                            Text(
-                                text = item.title,
-                                textAlign = TextAlign.Center,
-                                fontSize = 10.sp
+                            Box(
+                                modifier = Modifier
+                                    .height(dividerThickness)
+                                    .width(with(LocalDensity.current) { iconSize.width.toDp() * 1.2f })
+                                    .background(color = colorResource(id = R.color.cash_green), shape = RoundedCornerShape(dividerThickness/2))
                             )
                         }
                     }
