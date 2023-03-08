@@ -2,29 +2,39 @@ package com.budgetmanager.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
+import com.budgetmanager.objects.Obligation
 import com.budgetmanager.charts.PieChart
 import com.budgetmanager.ui.theme.Typography
 import com.budgetmanager.R
 
 @Composable
 fun HomeScreen(navController: NavController){
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -39,22 +49,43 @@ fun HomeScreen(navController: NavController){
                     tileMode = TileMode.Decal
                 )
             )
-            .padding(10.dp)
+            .padding(horizontal = 10.dp)
     ) {
         val startPadding = 25.dp
 
-        Text(
-            modifier = Modifier.padding(
-                start = startPadding / 1.5f,
-                top = 30.dp,
-                bottom = 10.dp
-            ),
-            text = "Мои финансы",
-            style = Typography.h1
-        )
+        item {
+            Text(
+                modifier = Modifier.padding(
+                    start = startPadding / 1.5f,
+                    top = 30.dp,
+                    bottom = 10.dp
+                ),
+                text = "Мои финансы",
+                style = Typography.h1
+            )
 
-        ChartInstance(startPadding = startPadding, chartRadius = 140.dp)
-        Balance(startPadding = startPadding)
+            ChartInstance(startPadding = startPadding, chartRadius = 140.dp)
+            Balance(startPadding = startPadding)
+            Recommendations(monthlySum = 28170f, dailySum = 5499f, startPadding = startPadding)
+
+            ObligationsThumbnail(
+                startPadding = startPadding,
+                obligations = listOf(
+                    Obligation(
+                        dueDate = 20,
+                        name = "Оплата кредита",
+                        sum = 12000f,
+                        color = Color.Red
+                    ),
+                    Obligation(
+                        dueDate = 30,
+                        name = "Налоги",
+                        sum = 15000f,
+                        color = Color.Blue
+                    )
+                )
+            )
+        }
     }
 }
 
@@ -129,7 +160,7 @@ fun Balance(currentBalance : Float = 0f, startPadding: Dp){
                 )
                 Text(
                     text = "Баланс",
-                    style = Typography.overline
+                    style = Typography.overline,
                 )
             }
         }
@@ -146,6 +177,124 @@ fun Balance(currentBalance : Float = 0f, startPadding: Dp){
                 text = "Пополнить баланс",
                 style = Typography.caption
             )
+        }
+    }
+}
+
+
+@Composable
+fun Recommendations(
+    monthlySum : Float,
+    dailySum : Float,
+    startPadding : Dp
+){
+    val dividerThickness = 2.dp
+    val subdividePadding = 5.dp
+
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(startPadding))
+            .background(
+                color = Color.White
+            )
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            var headerSize by remember { mutableStateOf(Size.Zero) }
+
+            Text(
+                modifier = Modifier
+                    .onGloballyPositioned { coordinates ->
+                        headerSize = coordinates.size.toSize()
+                    }
+                    .padding(bottom = subdividePadding),
+                text = "Рекомендуемая сумма:",
+                style = Typography.body1
+            )
+            Divider(
+                modifier = Modifier.width(with (LocalDensity.current) { headerSize.width.toDp() }),
+                color = Color.LightGray,
+                thickness = dividerThickness
+            )
+            Row (modifier = Modifier.padding(vertical = subdividePadding)) {
+                var subColSize by remember { mutableStateOf(Size.Zero) }
+
+                Column(
+                    modifier = Modifier
+                        .onGloballyPositioned { coordinates ->
+                            subColSize = coordinates.size.toSize()
+                        }
+                        .padding(end = subdividePadding)
+                ) {
+                    Text(
+                        text = "месяц",
+                        style = Typography.caption
+                    )
+                    Text(
+                        text = "$monthlySum ₽",
+                        style = Typography.body1
+                    )
+                }
+
+                Divider(
+                    color = Color.LightGray,
+                    modifier = Modifier
+                        .height(with(LocalDensity.current) { subColSize.height.toDp() })
+                        .width(dividerThickness)
+                )
+
+                Column(
+                    modifier = Modifier.padding(start = subdividePadding)
+                ) {
+                    Text(
+                        text = "день",
+                        style = Typography.caption
+                    )
+                    Text(
+                        text = "$dailySum ₽",
+                        style = Typography.body1
+                    )
+                }
+            }
+        }
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(subdividePadding))
+                    .background(color = Color.LightGray),
+                imageVector = Icons.Rounded.ArrowForward,
+                contentDescription = "see more budget",
+                tint = Color.Black
+            )
+        }
+    }
+}
+
+
+@Composable
+fun ObligationsThumbnail(
+    startPadding : Dp,
+    obligations : List<Obligation>
+){
+    val currentDate = 8
+
+    Text(
+        modifier = Modifier.padding(
+            start = startPadding / 1.5f,
+            top = 30.dp,
+            bottom = 10.dp
+        ),
+        text = "Мои обязательства",
+        style = Typography.h1
+    )
+
+    LazyRow(
+        modifier = Modifier.padding(bottom = 110.dp)
+    ){
+        items(obligations){ obligation ->
+            obligation.ObligationPreview(startPadding = startPadding, currentDate = currentDate)
         }
     }
 }
