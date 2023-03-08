@@ -62,6 +62,11 @@ fun BudgetManagerComposable(){
                         route = Screen.Home.route,
                         icon =  ImageVector.vectorResource(id = R.drawable.home),
                     ),
+                    NavItem(
+                        title = Screen.Obligations.title,
+                        route = Screen.Obligations.route,
+                        icon =  ImageVector.vectorResource(id = R.drawable.calendar),
+                    ),
                 ),
                 navController = navController,
                 onItemClick = {
