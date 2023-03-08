@@ -95,10 +95,16 @@ fun ObligationsScreen (navController: NavController) {
                     color = Color.Red
                 ),
                 Obligation(
-                    dueDate = 30,
+                    dueDate = 22,
                     name = "Налоги",
-                    sum = 15000f,
+                    sum = 2200f,
                     color = Color.Blue
+                ),
+                Obligation(
+                    dueDate = 30,
+                    name = "Квартплата",
+                    sum = 15000f,
+                    color = Color.Cyan
                 )
             )
         )

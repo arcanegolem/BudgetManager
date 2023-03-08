@@ -139,7 +139,7 @@ class Obligation(
     ) {
         Row(
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
+                    .padding(vertical = 5.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(15.dp))
                     .background(Color.White),
@@ -193,7 +193,8 @@ class Obligation(
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.money),
                                 contentDescription = "Clock icon for the date" ,
-                                tint = colorResource(id = R.color.cash_green)
+                                tint = colorResource(id = R.color.cash_green),
+                                modifier = Modifier.padding(end = 5.dp)
                             )
                             Text(
                                 text = "$sum",
