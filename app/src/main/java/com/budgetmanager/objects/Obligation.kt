@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -140,7 +141,7 @@ class Obligation(
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(7.dp))
+                    .clip(RoundedCornerShape(15.dp))
                     .background(Color.White),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -148,21 +149,26 @@ class Obligation(
             ) {
                 Row(
 
-                    modifier = Modifier.padding(vertical = 10.dp),
+                    modifier = Modifier.padding(vertical = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     var localDensity = LocalDensity.current
-                    var timerTextSize by remember { mutableStateOf(0.dp)}
+                    var boxHeight by remember { mutableStateOf(0.dp)}
                     Box(
                         modifier = Modifier
                             .padding(end = 5.dp)
-                            .width(3.dp)
-                            .clip(RoundedCornerShape((1.5).dp))
-                            .size(0.dp)
+                            .width(4.dp)
+                            .clip(RoundedCornerShape((2).dp))
+                            .size(boxHeight)
                             .background(color)
                     )
                     Column(
-                        modifier = Modifier.padding(horizontal = 5.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .onGloballyPositioned { coordinates ->
+                                boxHeight = with(localDensity) {coordinates.size.height.toDp()}
+                            }
+
                     ) {
                         Text(name, style = Typography.subtitle1)
                         Row(
@@ -187,7 +193,7 @@ class Obligation(
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.money),
                                 contentDescription = "Clock icon for the date" ,
-                                //modifier = Modifier.size(timerTextSize))
+                                tint = colorResource(id = R.color.cash_green)
                             )
                             Text(
                                 text = "$sum",
