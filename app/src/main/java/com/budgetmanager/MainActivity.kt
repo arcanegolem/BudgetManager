@@ -27,6 +27,8 @@ import com.budgetmanager.navigation.Navigation
 import com.budgetmanager.screensbase.Screen
 import com.budgetmanager.ui.theme.BudgetManagerTheme
 
+
+// DEV
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
