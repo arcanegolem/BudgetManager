@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.Dp
@@ -40,7 +41,7 @@ fun PieChart(
 
     var animationExecuted by remember { mutableStateOf( false ) }
 
-    var trailingValue = -90f
+    var trailingValue = -72f
 
     var textVisible by remember { mutableStateOf(false) }
 
@@ -91,10 +92,10 @@ fun PieChart(
                 arcValues.forEachIndexed { index, value ->
                     drawArc(
                         color = colors[index],
-                        trailingValue,
-                        value,
+                        startAngle = trailingValue,
+                        sweepAngle = value - 18,
                         useCenter = false,
-                        style = Stroke(chartBarWidth.toPx(), cap = StrokeCap.Butt)
+                        style = Stroke(width = chartBarWidth.toPx(), cap = StrokeCap.Round)
                     )
                     trailingValue += value
                 }

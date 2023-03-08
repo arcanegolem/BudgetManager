@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -52,6 +54,7 @@ fun HomeScreen(navController: NavController){
             .padding(horizontal = 10.dp)
     ) {
         val startPadding = 25.dp
+        val shadowElevation = 10.dp
 
         item {
             Text(
@@ -64,9 +67,9 @@ fun HomeScreen(navController: NavController){
                 style = Typography.h1
             )
 
-            ChartInstance(startPadding = startPadding, chartRadius = 140.dp)
-            Balance(startPadding = startPadding)
-            Recommendations(monthlySum = 28170f, dailySum = 5499f, startPadding = startPadding)
+            ChartInstance(startPadding = startPadding, chartRadius = 140.dp, shadowElevation = shadowElevation)
+            Balance(startPadding = startPadding, shadowElevation = shadowElevation)
+            Recommendations(monthlySum = 28170f, dailySum = 5499f, startPadding = startPadding, shadowElevation = shadowElevation)
 
             ObligationsThumbnail(
                 startPadding = startPadding,
@@ -83,7 +86,8 @@ fun HomeScreen(navController: NavController){
                         sum = 15000f,
                         color = Color.Blue
                     )
-                )
+                ),
+                shadowElevation = shadowElevation
             )
         }
     }
@@ -93,19 +97,24 @@ fun HomeScreen(navController: NavController){
 @Composable
 fun ChartInstance(
     startPadding : Dp,
-    chartRadius: Dp
+    chartRadius: Dp,
+    shadowElevation: Dp
 ){
+    val clipShape = RoundedCornerShape(
+        topStart = startPadding,
+        topEnd = chartRadius / 1.5f,
+        bottomStart = startPadding,
+        bottomEnd = chartRadius / 1.5f
+    )
+
     Row(
         modifier = Modifier
             .height(chartRadius * 1.35f)
-            .clip(
-                shape = RoundedCornerShape(
-                    topStart = startPadding,
-                    topEnd = chartRadius / 1.5f,
-                    bottomStart = startPadding,
-                    bottomEnd = chartRadius / 1.5f
-                )
+            .shadow(
+                elevation = shadowElevation,
+                shape = clipShape
             )
+            .clip( shape = clipShape )
             .background(color = Color.White),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -133,11 +142,16 @@ fun ChartInstance(
 
 
 @Composable
-fun Balance(currentBalance : Float = 0f, startPadding: Dp){
+fun Balance(
+    currentBalance : Float = 0f,
+    startPadding : Dp,
+    shadowElevation : Dp
+){
     Row(
         modifier = Modifier
             .padding(vertical = 20.dp)
             .fillMaxWidth(0.95f)
+            .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))
             .clip(RoundedCornerShape(startPadding))
             .background(color = Color.White)
             .padding(20.dp),
@@ -148,7 +162,7 @@ fun Balance(currentBalance : Float = 0f, startPadding: Dp){
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.padding(end = 20.dp),
+                modifier = Modifier.padding(end = 10.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.wallet),
                 contentDescription = "wallet",
                 tint = colorResource(id = R.color.cash_green)
@@ -186,13 +200,15 @@ fun Balance(currentBalance : Float = 0f, startPadding: Dp){
 fun Recommendations(
     monthlySum : Float,
     dailySum : Float,
-    startPadding : Dp
+    startPadding : Dp,
+    shadowElevation: Dp
 ){
     val dividerThickness = 2.dp
     val subdividePadding = 5.dp
 
     Row(
         modifier = Modifier
+            .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))
             .clip(RoundedCornerShape(startPadding))
             .background(
                 color = Color.White
@@ -262,11 +278,11 @@ fun Recommendations(
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(subdividePadding))
-                    .background(color = Color.LightGray),
-                imageVector = Icons.Rounded.ArrowForward,
+                    .clip(CircleShape)
+                    .background(color = colorResource(id = R.color.super_light_gray)),
+                imageVector = ImageVector.vectorResource(id = R.drawable.chevron_right),
                 contentDescription = "see more budget",
-                tint = Color.Black
+                tint = Color.DarkGray
             )
         }
     }
@@ -276,7 +292,8 @@ fun Recommendations(
 @Composable
 fun ObligationsThumbnail(
     startPadding : Dp,
-    obligations : List<Obligation>
+    obligations : List<Obligation>,
+    shadowElevation : Dp
 ){
     val currentDate = 8
 
@@ -294,7 +311,7 @@ fun ObligationsThumbnail(
         modifier = Modifier.padding(bottom = 110.dp)
     ){
         items(obligations){ obligation ->
-            obligation.ObligationPreview(startPadding = startPadding, currentDate = currentDate)
+            obligation.ObligationPreview(startPadding = startPadding, currentDate = currentDate, shadowElevation)
         }
     }
 }

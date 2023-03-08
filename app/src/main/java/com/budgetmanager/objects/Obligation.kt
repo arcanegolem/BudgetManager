@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -31,13 +32,15 @@ class Obligation(
     @Composable
     fun ObligationPreview(
         startPadding : Dp,
-        currentDate: Int
+        currentDate: Int,
+        shadowElevation : Dp
     ){
         Column(
             modifier = Modifier
                 .padding(end = 20.dp)
                 .width(170.dp)
                 .height(220.dp)
+                .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))
                 .clip(RoundedCornerShape(startPadding))
                 .background(color = Color.White),
             verticalArrangement = Arrangement.SpaceBetween

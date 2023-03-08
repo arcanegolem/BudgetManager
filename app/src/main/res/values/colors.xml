@@ -8,5 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cash_green">#FF22B04A</color>
-    <color name="super_light_gray">#F2F1EFEF</color>
+    <color name="super_light_gray">#F2F8F8F8</color>
 </resources>

@@ -54,7 +54,7 @@ fun BudgetManagerComposable(){
         bottomBar = {
             BottomNavigationBar(
                 backgroundColor = colorResource(id = R.color.super_light_gray),
-                unselectedContentColor = Color.White,
+                unselectedContentColor = Color.DarkGray,
                 selectedContentColor = colorResource(id = R.color.cash_green),
                 navTabs = listOf(
                     NavItem(
