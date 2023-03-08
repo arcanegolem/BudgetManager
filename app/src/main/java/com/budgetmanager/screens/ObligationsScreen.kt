@@ -113,7 +113,6 @@ fun ObligationsList(
     val currentDate = 8
 
     LazyColumn(
-        modifier = Modifier.padding(bottom = 110.dp)
     ){
         items(obligations){ obligation ->
             obligation.ObligationCard(startPadding = startPadding, currentDate = currentDate)
