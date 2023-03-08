@@ -29,6 +29,12 @@ val Typography = Typography(
         fontWeight = FontWeight.W500,
         fontSize = 22.sp
     ),
+    h6 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W500,
+        color = Color.DarkGray,
+        fontSize = 12.sp
+    ),
     overline = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.W200,
