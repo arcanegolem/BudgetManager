@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.budgetmanager.charts.PieChartCenterCut
+import com.budgetmanager.charts.PieChart
 import com.budgetmanager.navigation.NavItem
 import com.budgetmanager.navigation.Navigation
 import com.budgetmanager.screensbase.Screen
@@ -31,11 +32,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BudgetManagerTheme {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center
+                Row(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .background(
+                            color = Color.DarkGray,
+                            shape = RoundedCornerShape(
+                                topStart = 20.dp,
+                                topEnd = 90.dp,
+                                bottomStart = 20.dp,
+                                bottomEnd = 90.dp)
+                        )
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    PieChartCenterCut(
+                    PieChart(
+                        outerRadius = 120.dp,
+                        chartBarWidth = 20.dp,
                         data = mapOf(
                             Pair("Sample-data-1", 21f),
                             Pair("Sample-data-2", 30f),
