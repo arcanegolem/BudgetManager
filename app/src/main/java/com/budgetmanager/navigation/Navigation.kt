@@ -15,9 +15,9 @@ fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState){
         composable(route = Screen.Home.route) {
             HomeScreen(navController = navController)
         }
+
         composable(route = Screen.Obligations.route) {
             ObligationsScreen(navController = navController)
         }
-
     }
 }
