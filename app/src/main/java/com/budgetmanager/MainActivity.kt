@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.EaseInBounce
-import androidx.compose.animation.core.EaseInCubic
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -101,7 +99,8 @@ fun BottomNavigationBar(
 
     BottomNavigation(
         modifier = modifier
-            .padding(bottom = 10.dp)
+            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(25.dp))
             .clip(shape = RoundedCornerShape(25.dp))
             .height(iconHeight * 2f),
         backgroundColor = backgroundColor,
@@ -123,7 +122,7 @@ fun BottomNavigationBar(
 
                     val animatedPadding by animateDpAsState(
                         targetValue =  if (!selected) 0.dp else iconPadding,
-                        animationSpec = tween(durationMillis = 300, easing = EaseInCubic)
+                        animationSpec = tween(durationMillis = 200, easing = EaseInOutQuad)
                     )
 
                     Column(

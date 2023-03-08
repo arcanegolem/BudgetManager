@@ -37,7 +37,7 @@ class Obligation(
     ){
         Column(
             modifier = Modifier
-                .padding(end = 20.dp)
+                .padding(horizontal = 10.dp)
                 .width(170.dp)
                 .height(220.dp)
                 .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))

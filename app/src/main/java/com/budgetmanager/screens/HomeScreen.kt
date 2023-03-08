@@ -51,7 +51,7 @@ fun HomeScreen(navController: NavController){
                     tileMode = TileMode.Decal
                 )
             )
-            .padding(horizontal = 10.dp)
+//            .padding(horizontal = 10.dp)
     ) {
         val startPadding = 25.dp
         val shadowElevation = 10.dp
@@ -67,9 +67,26 @@ fun HomeScreen(navController: NavController){
                 style = Typography.h1
             )
 
-            ChartInstance(startPadding = startPadding, chartRadius = 140.dp, shadowElevation = shadowElevation)
-            Balance(startPadding = startPadding, shadowElevation = shadowElevation)
-            Recommendations(monthlySum = 28170f, dailySum = 5499f, startPadding = startPadding, shadowElevation = shadowElevation)
+            ChartInstance(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                startPadding = startPadding,
+                chartRadius = 140.dp,
+                shadowElevation = shadowElevation
+            )
+
+            Balance(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                startPadding = startPadding,
+                shadowElevation = shadowElevation
+            )
+
+            Recommendations(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                monthlySum = 28170f,
+                dailySum = 5499f,
+                startPadding = startPadding,
+                shadowElevation = shadowElevation
+            )
 
             ObligationsThumbnail(
                 startPadding = startPadding,
@@ -96,6 +113,7 @@ fun HomeScreen(navController: NavController){
 
 @Composable
 fun ChartInstance(
+    modifier: Modifier,
     startPadding : Dp,
     chartRadius: Dp,
     shadowElevation: Dp
@@ -108,7 +126,7 @@ fun ChartInstance(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .height(chartRadius * 1.35f)
             .shadow(
                 elevation = shadowElevation,
@@ -143,12 +161,13 @@ fun ChartInstance(
 
 @Composable
 fun Balance(
+    modifier: Modifier,
     currentBalance : Float = 0f,
     startPadding : Dp,
     shadowElevation : Dp
 ){
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 20.dp)
             .fillMaxWidth(0.95f)
             .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))
@@ -198,6 +217,7 @@ fun Balance(
 
 @Composable
 fun Recommendations(
+    modifier: Modifier,
     monthlySum : Float,
     dailySum : Float,
     startPadding : Dp,
@@ -207,7 +227,7 @@ fun Recommendations(
     val subdividePadding = 5.dp
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .shadow(elevation = shadowElevation, shape = RoundedCornerShape(startPadding))
             .clip(RoundedCornerShape(startPadding))
             .background(
