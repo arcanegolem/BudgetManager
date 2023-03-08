@@ -20,16 +20,18 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.budgetmanager.ui.theme.Typography
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun PieChart(
     data: Map<String, Float>,
-    outerRadius: Dp = 180.dp,
-    chartBarWidth: Dp = 40.dp,
+    outerRadius: Dp,
+    chartBarWidth: Dp,
     chartAnimationDuration: Int = 1000,
     colors: List<Color>,
-    showLegend: Boolean = true
+    showLegend: Boolean = true,
+    chartCenterValue: String
 ){
     val dataTotal = data.values.sum()
     val arcValues = mutableListOf<Float>()
@@ -65,7 +67,7 @@ fun PieChart(
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (showLegend) {
@@ -74,7 +76,7 @@ fun PieChart(
 
         val textMeasurer = rememberTextMeasurer()
         val textLayoutResult: TextLayoutResult =
-            textMeasurer.measure(text = AnnotatedString("11.990 ₽"))
+            textMeasurer.measure(text = AnnotatedString(chartCenterValue))
         val textSize = textLayoutResult.size
 
         Box(
@@ -103,11 +105,12 @@ fun PieChart(
                 if (textVisible) {
                     drawText(
                         textMeasurer = textMeasurer,
-                        text = "11.990 ₽",
+                        text = chartCenterValue,
                         topLeft = Offset(
                             (canvasWidth - textSize.width) / 2f,
                             (canvasHeight - textSize.height) / 2f
                         ),
+                        style = Typography.subtitle1
                     )
                 }
             }
@@ -158,7 +161,8 @@ fun ChartLegendItem(
 
             Text(
                 modifier = Modifier.padding(start = 10.dp),
-                text = itemData.first
+                text = itemData.first,
+                style = Typography.caption
             )
         }
     }
