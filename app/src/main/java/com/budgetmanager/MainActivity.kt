@@ -100,7 +100,7 @@ fun BottomNavigationBar(
     BottomNavigation(
         modifier = modifier
             .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(25.dp))
+            .shadow(elevation = 10.dp, shape = RoundedCornerShape(25.dp))
             .clip(shape = RoundedCornerShape(25.dp))
             .height(iconHeight * 2f),
         backgroundColor = backgroundColor,
