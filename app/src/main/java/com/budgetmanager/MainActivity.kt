@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.EaseInBounce
+import androidx.compose.animation.core.EaseInCubic
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -115,6 +119,12 @@ fun BottomNavigationBar(
                 icon = {
                     var iconSize by remember { mutableStateOf(Size.Zero) }
                     val dividerThickness = 3.dp
+                    val iconPadding = dividerThickness * 3
+
+                    val animatedPadding by animateDpAsState(
+                        targetValue =  if (!selected) 0.dp else iconPadding,
+                        animationSpec = tween(durationMillis = 300, easing = EaseInCubic)
+                    )
 
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -124,7 +134,7 @@ fun BottomNavigationBar(
                                 .onGloballyPositioned { coordinates ->
                                     iconSize = coordinates.size.toSize()
                                 }
-                                .padding(bottom = if (selected) dividerThickness * 3 else 0.dp),
+                                .padding(bottom = animatedPadding),
                             imageVector = item.icon,
                             contentDescription = item.title
                         )
