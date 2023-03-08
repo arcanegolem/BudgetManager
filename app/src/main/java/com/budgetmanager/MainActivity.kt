@@ -53,7 +53,7 @@ fun BudgetManagerComposable(){
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomNavigationBar(
-                backgroundColor = Color(alpha = 0.4f, red = 1.0f, green = 1.0f, blue = 1.0f),
+                backgroundColor = Color(alpha = 0.6f, red = 1.0f, green = 1.0f, blue = 1.0f),
                 unselectedContentColor = Color.White,
                 selectedContentColor = colorResource(id = R.color.cash_green),
                 navTabs = listOf(
