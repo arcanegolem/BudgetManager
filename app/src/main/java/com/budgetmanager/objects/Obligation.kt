@@ -3,12 +3,15 @@ package com.budgetmanager.objects
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +19,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.budgetmanager.R
 import com.budgetmanager.ui.theme.Typography
 
 class Obligation(
@@ -127,4 +134,81 @@ class Obligation(
             }
         }
     }
+
+    @Composable
+    fun ObligationCard(
+        startPadding : Dp,
+        currentDate: Int
+    ) {
+        Row(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(Color.White),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+
+            ) {
+                Row(
+
+                    modifier = Modifier.padding(vertical = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var localDensity = LocalDensity.current
+                    var boxHeight by remember { mutableStateOf(0.dp)}
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .width(4.dp)
+                            .clip(RoundedCornerShape((2).dp))
+                            .size(boxHeight)
+                            .background(color)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .onGloballyPositioned { coordinates ->
+                                boxHeight = with(localDensity) {coordinates.size.height.toDp()}
+                            }
+
+                    ) {
+                        Text(name, style = Typography.subtitle1)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            var localDensity = LocalDensity.current
+                            var timerTextSize by remember { mutableStateOf(0.dp)}
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.schedule),
+                                contentDescription = "Clock icon for the date" ,
+                                modifier = Modifier.size(timerTextSize).padding(end = 5.dp))
+                            Text(
+                                "${dueDate - currentDate} дней",
+                                style = Typography.overline,
+                                modifier = Modifier.onGloballyPositioned { coordinates ->
+                                    timerTextSize = with(localDensity) {coordinates.size.height.toDp()}}
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.money),
+                                contentDescription = "Clock icon for the date" ,
+                                tint = colorResource(id = R.color.cash_green),
+                                modifier = Modifier.padding(end = 5.dp)
+                            )
+                            Text(
+                                text = "$sum",
+                                style = Typography.h6
+                            )
+                        }
+                    }
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Rounded.MoreVert, contentDescription = "Actions with obligation")
+                }
+            }
+        }
 }
