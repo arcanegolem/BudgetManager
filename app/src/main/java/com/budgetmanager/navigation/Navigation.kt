@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.budgetmanager.screens.HomeScreen
 import com.budgetmanager.screens.ObligationsScreen
+import com.budgetmanager.screens.RulesScreen
 import com.budgetmanager.screensbase.Screen
 
 @Composable
@@ -18,6 +19,10 @@ fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState){
 
         composable(route = Screen.Obligations.route) {
             ObligationsScreen(navController = navController)
+        }
+
+        composable(route = Screen.Rules.route){
+            RulesScreen(navController = navController)
         }
     }
 }

@@ -4,4 +4,6 @@ sealed class Screen (val route: String, val title: String) {
 
     object Home : Screen (route = "home", title = "Домашний экран")
     object Obligations : Screen (route = "obligations", title = "Обязательства")
+
+    object Rules : Screen (route = "rules", title = "Правила")
 }

@@ -2,6 +2,7 @@ package com.budgetmanager.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -38,6 +39,12 @@ val Typography = Typography(
         fontFamily = ComfortaaFontFamily,
         fontWeight = FontWeight.W500,
         fontSize = 22.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = ComfortaaFontFamily,
+        fontWeight = FontWeight.W500,
+        fontSize = 26.sp,
+        color = CashGreen
     ),
     h6 = TextStyle(
         fontFamily = ComfortaaFontFamily,
