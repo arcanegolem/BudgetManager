@@ -8,8 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -302,7 +300,7 @@ fun Recommendations(
                     .background(color = colorResource(id = R.color.super_light_gray)),
                 imageVector = ImageVector.vectorResource(id = R.drawable.chevron_right),
                 contentDescription = "see more budget",
-                tint = Color.DarkGray
+                tint = Color.LightGray
             )
         }
     }
