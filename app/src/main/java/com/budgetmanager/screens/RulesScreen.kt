@@ -20,15 +20,18 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.budgetmanager.ui.theme.Typography
 import com.budgetmanager.R
+import com.budgetmanager.objects.FinancialRule
 
 @Composable
 fun RulesScreen(navController: NavController){
@@ -53,18 +56,49 @@ fun RulesScreen(navController: NavController){
         val shadowElevation = 10.dp
 
         item {
-            Text(
-                modifier = Modifier.padding(
-                    start = startPadding / 1.5f,
-                    top = 30.dp,
-                    bottom = 10.dp
-                ),
-                text = "Категории правил",
-                style = Typography.h1
-            )
-
+            Spacer(modifier = Modifier.padding(30.dp))
+            
             RulesHeader(
                 totalSum = 120000f,
+                startPadding = startPadding,
+                shadowElevation = shadowElevation
+            )
+
+            FinancialRules(
+                rules = listOf(
+                    FinancialRule(
+                        ruleName = "Авто",
+                        ruleIcon = ImageVector.vectorResource(id = R.drawable.auto_transport),
+                        ruleColor = Color.Blue,
+                        ruleDescription = "Авто",
+                        maxAmount = 69000f,
+                        currentAmount = 61070f,
+                    ),
+                    FinancialRule(
+                        ruleName = "Образование",
+                        ruleIcon = ImageVector.vectorResource(id = R.drawable.education),
+                        ruleColor = Color.Magenta,
+                        ruleDescription = "Образование",
+                        maxAmount = 15000f,
+                        currentAmount = 3400f,
+                    ),
+                    FinancialRule(
+                        ruleName = "Рестораны",
+                        ruleIcon = ImageVector.vectorResource(id = R.drawable.food),
+                        ruleColor = Color.Red,
+                        ruleDescription = "Рестораны",
+                        maxAmount = 10000f,
+                        currentAmount = 5350f,
+                    ),
+                    FinancialRule(
+                        ruleName = "Шоппинг",
+                        ruleIcon = ImageVector.vectorResource(id = R.drawable.shopping),
+                        ruleColor = Color.Green,
+                        ruleDescription = "Шоппинг",
+                        maxAmount = 50000f,
+                        currentAmount = 23480f,
+                    ),
+                ),
                 startPadding = startPadding,
                 shadowElevation = shadowElevation
             )
@@ -100,7 +134,7 @@ fun RulesHeader(
                 }
         ) {
             Text(
-                text = "Общее",
+                text = "Общая сумма",
                 style = Typography.overline
             )
 
@@ -113,15 +147,43 @@ fun RulesHeader(
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 modifier = Modifier
-                    .height(with (LocalDensity.current) { colSize.height.toDp() })
-                    .width(with (LocalDensity.current) { colSize.height.toDp() })
+                    .height(with(LocalDensity.current) { colSize.height.toDp() })
+                    .width(with(LocalDensity.current) { colSize.height.toDp() })
                     .background(
-                        color = colorResource(id = R.color.super_light_gray),
+                        color = colorResource(id = R.color.cash_green),
                         shape = CircleShape
                     ),
                 imageVector = Icons.Rounded.Add,
                 contentDescription = "add category",
-                tint = Color.LightGray
+                tint = Color.White
+            )
+        }
+    }
+}
+
+
+@Composable
+fun FinancialRules(
+    rules : List<FinancialRule>,
+    startPadding: Dp,
+    shadowElevation: Dp
+){
+    Text(
+        modifier = Modifier.padding(
+            start = startPadding / 1.5f,
+            top = 30.dp,
+            bottom = 10.dp
+        ),
+        text = "Правила",
+        style = Typography.h1
+    )
+
+    Column() {
+        rules.forEachIndexed { index, financialRule ->
+            financialRule.RulePreview(
+                clipShape = RoundedCornerShape(startPadding),
+                shadowElevation = shadowElevation,
+                bottomPadding = if (index == rules.size - 1) 110.dp else 10.dp
             )
         }
     }

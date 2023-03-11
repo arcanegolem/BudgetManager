@@ -35,6 +35,11 @@ val Typography = Typography(
         fontWeight = FontWeight.W500,
         fontSize = 16.sp
     ),
+    subtitle2 = TextStyle(
+        fontFamily = ComfortaaFontFamily,
+        fontWeight = FontWeight.W200,
+        fontSize = 10.sp
+    ),
     h1 = TextStyle(
         fontFamily = ComfortaaFontFamily,
         fontWeight = FontWeight.W500,
@@ -44,18 +49,17 @@ val Typography = Typography(
         fontFamily = ComfortaaFontFamily,
         fontWeight = FontWeight.W500,
         fontSize = 26.sp,
-        color = CashGreen
     ),
     h6 = TextStyle(
         fontFamily = ComfortaaFontFamily,
         fontWeight = FontWeight.W500,
-        color = Color.DarkGray,
+        color = Color.Gray,
         fontSize = 12.sp
     ),
     overline = TextStyle(
         fontFamily = ComfortaaFontFamily,
         fontWeight = FontWeight.W200,
-        color = Color.DarkGray,
+        color = Color.Gray,
         fontSize = 12.sp
     )
 )
